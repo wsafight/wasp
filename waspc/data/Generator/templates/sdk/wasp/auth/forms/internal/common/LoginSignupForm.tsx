@@ -133,10 +133,18 @@ export const LoginSignupForm = ({
     state,
     socialButtonsDirection = 'horizontal',
     additionalSignupFields,
+    labels = {}
 }: {
     state: 'login' | 'signup'
     socialButtonsDirection?: 'horizontal' | 'vertical'
     additionalSignupFields?: AdditionalSignupFields
+    labels?: {
+      loginBtn?: string
+      signupBtn?: string
+      userName?: string
+      email?: string
+      password?: string
+    }
 }) => {
   const {
     isLoading,
@@ -145,7 +153,16 @@ export const LoginSignupForm = ({
     setIsLoading,
   } = useContext(AuthContext)
   const isLogin = state === 'login'
-  const cta = isLogin ? 'Log in' : 'Sign up';
+
+  const { 
+    loginBtn = 'Log in', 
+    signupBtn = 'Sign up', 
+    userName = '', 
+    password = '', 
+    email = '' 
+  } = labels ?? {};
+
+  const cta = isLogin ? loginBtn : signupBtn;
   {=# isAnyPasswordBasedAuthEnabled =}
   const navigate = useNavigate();
   const onErrorHandler = (error) => {
@@ -225,7 +242,7 @@ export const LoginSignupForm = ({
         <Form onSubmit={hookFormHandleSubmit(onSubmit)}>
           {=# enabledProviders.isUsernameAndPasswordAuthEnabled =}
           <FormItemGroup>
-            <FormLabel>Username</FormLabel>
+            <FormLabel>{userName ?? 'Username'}</FormLabel>
             <FormInput
               {...register('username', {
                 required: 'Username is required',
@@ -238,7 +255,7 @@ export const LoginSignupForm = ({
           {=/ enabledProviders.isUsernameAndPasswordAuthEnabled =}
           {=# enabledProviders.isEmailAuthEnabled =}
           <FormItemGroup>
-            <FormLabel>E-mail</FormLabel>
+            <FormLabel>{email ?? 'E-mail'}</FormLabel>
             <FormInput
               {...register('email', {
                 required: 'Email is required',
@@ -250,7 +267,7 @@ export const LoginSignupForm = ({
           </FormItemGroup>
           {=/ enabledProviders.isEmailAuthEnabled =}
           <FormItemGroup>
-            <FormLabel>Password</FormLabel>
+            <FormLabel>{password ?? 'Password'}</FormLabel>
             <FormInput
               {...register('password', {
                 required: 'Password is required',

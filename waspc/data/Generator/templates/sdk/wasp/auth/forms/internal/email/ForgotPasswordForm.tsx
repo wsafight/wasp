@@ -5,7 +5,11 @@ import { Form, FormItemGroup, FormLabel, FormInput, SubmitButton, FormError } fr
 import { AuthContext } from '../../Auth'
 
 // PRIVATE API
-export const ForgotPasswordForm = () => {
+export const ForgotPasswordForm = ({
+  labels = {}
+}: {
+  labels: Record<string, string>
+}) => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<{ email: string }>()
   const { isLoading, setErrorMessage, setSuccessMessage, setIsLoading } = useContext(AuthContext)
 
@@ -27,11 +31,13 @@ export const ForgotPasswordForm = () => {
     }
   }
 
+  const { email } = labels;
+
   return (
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormItemGroup>
-          <FormLabel>E-mail</FormLabel>
+          <FormLabel>{email}</FormLabel>
           <FormInput
             {...register('email', {
               required: 'Email is required',

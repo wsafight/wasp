@@ -19,6 +19,18 @@ export type CustomizationOptions = {
   logo?: string
   socialLayout?: 'horizontal' | 'vertical'
   appearance?: Parameters<typeof createTheme>[0]
+  labels?: {
+    login?: string
+    signup?: string
+    forgetPassword?: string
+    resetPassword?: string
+    verifyEmail?: string
+    userName?: string
+    password?: string;
+    email?: string
+    loginBtn?: string;
+    signupBtn?: string
+  }
 }
 
 // PRIVATE API

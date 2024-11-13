@@ -46,7 +46,7 @@ export const AuthContext = createContext({
   setSuccessMessage: (successMessage: string | null) => {},
 })
 
-function Auth ({ state, appearance, logo, socialLayout = 'horizontal', additionalSignupFields }: {
+function Auth ({ state, appearance, logo, socialLayout = 'horizontal', additionalSignupFields, labels = {} }: {
     state: State;
 } & CustomizationOptions & {
   additionalSignupFields?: AdditionalSignupFields;
@@ -60,13 +60,26 @@ function Auth ({ state, appearance, logo, socialLayout = 'horizontal', additiona
   // user provided one.
   const customTheme = createTheme(appearance ?? {})
 
+  const { 
+    login, 
+    signup, 
+    forgetPassword,
+    resetPassword,
+    verifyEmail,
+    userName,
+    password,
+    email,
+    signupBtn,
+    loginBtn,
+    } = labels ?? {};
+
   const titles: Record<State, string> = {
-    login: 'Log in to your account',
-    signup: 'Create a new account',
+    login: login ?? 'Log in to your account',
+    signup: signup ?? 'Create a new account',
     {=# isEmailAuthEnabled =}
-    "forgot-password": "Forgot your password?",
-    "reset-password": "Reset your password",
-    "verify-email": "Email verification",
+    "forgot-password": forgetPassword ?? "Forgot your password?",
+    "reset-password": resetPassword ?? "Reset your password",
+    "verify-email": verifyEmail ?? "Email verification",
     {=/ isEmailAuthEnabled =}
   }
   const title = titles[state]
@@ -92,6 +105,13 @@ function Auth ({ state, appearance, logo, socialLayout = 'horizontal', additiona
             state={state}
             socialButtonsDirection={socialButtonsDirection}
             additionalSignupFields={additionalSignupFields}
+            labels={{
+              userName,
+              password,
+              email,
+              loginBtn,
+              signupBtn,
+            }}
           />
         )}
         {=# isEmailAuthEnabled =}
